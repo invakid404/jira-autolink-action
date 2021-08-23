@@ -1,0 +1,16 @@
+name: 'Jira autolink action'
+description: 'Automatically create autolink references to all Jira projects'
+author: 'invakid404'
+inputs:
+  host:
+    required: true
+    description: "Hostname of Jira instance"
+  username:
+    required: true
+    description: "Username to use for Jira"
+  password:
+    required: true
+    description: "Password/token to use for Jira"
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

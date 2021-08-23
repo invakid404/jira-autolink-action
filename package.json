@@ -1,0 +1,47 @@
+{
+  "name": "jira-autolink-action",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Automatically create autolink references to all Jira projects",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"**/*.ts\"",
+    "format-check": "prettier --check \"**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\"",
+    "package": "ncc build --source-map --license licenses.txt",
+    "all": "npm run build && npm run format && npm run lint && npm run package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/invakid404/jira-autolink-action.git"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "setup"
+  ],
+  "author": "invakid404 <invakid404@riseup.net>",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.4.0",
+    "@actions/github": "^5.0.0",
+    "@octokit/rest": "^18.9.1",
+    "jira-client": "^6.22.0",
+    "json-to-graphql-query": "^2.1.0",
+    "lodash.get": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/jira-client": "^6.21.2",
+    "@types/lodash.get": "^4.4.6",
+    "@types/node": "^16.6.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "@vercel/ncc": "^0.29.1",
+    "eslint": "^7.32.0",
+    "eslint-plugin-github": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "prettier": "2.3.2",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5"
+  }
+}
