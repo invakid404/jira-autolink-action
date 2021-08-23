@@ -81,18 +81,23 @@ const utils_1 = __nccwpck_require__(918);
 (async () => {
     const url = core.getInput('url', { required: true });
     const ticketPath = core.getInput('ticketPath');
+    const { data: existingAutolinks } = await octokit_1.octokit.repos.listAutolinks({
+        ...github.context.repo,
+    });
+    const autolinkKeys = new Set(existingAutolinks.map((autolink) => autolink.key_prefix));
     const projects = await jira_1.jira.listProjects();
     const autolinkTargets = projects
         .map((project) => project.key)
         .map((key) => [
         `${key}-`,
         utils_1.join(url, ticketPath.replace('<project>', key)),
-    ]);
-    const existingAutolinks = await octokit_1.octokit.repos.listAutolinks({
+    ])
+        .filter(([prefix]) => !autolinkKeys.has(prefix));
+    await Promise.all(autolinkTargets.map(async ([prefix, targetURL]) => octokit_1.octokit.repos.createAutolink({
         ...github.context.repo,
-    });
-    core.info(JSON.stringify(autolinkTargets, null, 2));
-    core.info(JSON.stringify(existingAutolinks, null, 2));
+        key_prefix: prefix,
+        url_template: targetURL,
+    })));
 })();
 
 

@@ -9,18 +9,30 @@ import { join } from './utils';
   const url = core.getInput('url', { required: true });
   const ticketPath = core.getInput('ticketPath');
 
+  const { data: existingAutolinks } = await octokit.repos.listAutolinks({
+    ...github.context.repo,
+  });
+
+  const autolinkKeys = new Set(
+    existingAutolinks.map((autolink) => autolink.key_prefix),
+  );
+
   const projects = await jira.listProjects();
   const autolinkTargets = projects
     .map((project: { key: string }) => project.key)
     .map((key: string) => [
       `${key}-`,
       join(url, ticketPath.replace('<project>', key)),
-    ]);
+    ])
+    .filter(([prefix]: [string]) => !autolinkKeys.has(prefix));
 
-  const existingAutolinks = await octokit.repos.listAutolinks({
-    ...github.context.repo,
-  });
-
-  core.info(JSON.stringify(autolinkTargets, null, 2));
-  core.info(JSON.stringify(existingAutolinks, null, 2));
+  await Promise.all(
+    autolinkTargets.map(async ([prefix, targetURL]: [string, string]) =>
+      octokit.repos.createAutolink({
+        ...github.context.repo,
+        key_prefix: prefix,
+        url_template: targetURL,
+      }),
+    ),
+  );
 })();
