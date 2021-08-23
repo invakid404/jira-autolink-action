@@ -2,9 +2,9 @@ name: 'Jira autolink action'
 description: 'Automatically create autolink references to all Jira projects'
 author: 'invakid404'
 inputs:
-  host:
+  url:
     required: true
-    description: "Hostname of Jira instance"
+    description: "URL to Jira instance"
   username:
     required: true
     description: "Username to use for Jira"

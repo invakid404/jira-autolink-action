@@ -32,11 +32,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.jira = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const jira_client_1 = __importDefault(__nccwpck_require__(6411));
-const host = core.getInput('host', { required: true });
+const url = core.getInput('url', { required: true });
 const username = core.getInput('username', { required: true });
 const password = core.getInput('password', { required: true });
+const { protocol, host } = new URL(url);
 exports.jira = new jira_client_1.default({
-    protocol: 'https',
+    protocol,
     apiVersion: '2',
     strictSSL: true,
     host,
@@ -75,9 +76,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const jira_1 = __nccwpck_require__(4438);
 (async () => {
-    core.info('Hello, world!');
     const projects = await jira_1.jira.listProjects();
-    core.info(JSON.stringify(projects, null, 2));
+    const projectKeys = projects.map((project) => project.key);
+    core.info(JSON.stringify(projectKeys, null, 2));
 })();
 
 
