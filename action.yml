@@ -1,0 +1,25 @@
+name: 'Jira autolink action'
+description: 'Verify that given fields exist on a Jira ticket'
+author: 'invakid404'
+inputs:
+  ticket:
+    required: false
+    description: "Jira ticket to validate; action is a noop if not supplied"
+  fields:
+    required: false
+    description: "Comma-separated list of fields to validate; action just verifies the ticket exists if not supplied"
+  label:
+    required: false
+    description: "Label to add to the PR if ticket isn't valid"
+  host:
+    required: true
+    description: "Hostname of Jira instance"
+  username:
+    required: true
+    description: "Username to use for Jira"
+  password:
+    required: true
+    description: "Password/token to use for Jira"
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
