@@ -2,6 +2,10 @@ name: 'Jira autolink action'
 description: 'Automatically create autolink references to all Jira projects'
 author: 'invakid404'
 inputs:
+  ticketPath:
+    required: false
+    description: "URL path to Jira ticket"
+    default: "/browse/<project>-<num>"
   url:
     required: true
     description: "URL to Jira instance"
