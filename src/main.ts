@@ -19,15 +19,15 @@ import { join } from './utils';
 
   const projects = await jira.listProjects();
   const autolinkTargets = projects
-    .map((project: { key: string }) => project.key)
-    .map((key: string) => [
-      `${key}-`,
-      join(url, ticketPath.replace('<project>', key)),
-    ])
-    .filter(([prefix]: [string]) => !autolinkKeys.has(prefix));
+    .map((project: Record<string, string>) => project.key)
+    .map((key) => ({
+      prefix: `${key}-`,
+      targetURL: join(url, ticketPath.replace('<project>', key)),
+    }))
+    .filter(({ prefix }) => !autolinkKeys.has(prefix));
 
   await Promise.all(
-    autolinkTargets.map(async ([prefix, targetURL]: [string, string]) =>
+    autolinkTargets.map(async ({ prefix, targetURL }) =>
       octokit.repos.createAutolink({
         ...github.context.repo,
         key_prefix: prefix,
