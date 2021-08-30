@@ -90,7 +90,7 @@ const utils_1 = __nccwpck_require__(918);
         .map((project) => project.key)
         .map((key) => [
         `${key}-`,
-        utils_1.join(url, ticketPath.replace('<project>', key)),
+        (0, utils_1.join)(url, ticketPath.replace('<project>', key)),
     ])
         .filter(([prefix]) => !autolinkKeys.has(prefix));
     await Promise.all(autolinkTargets.map(async ([prefix, targetURL]) => octokit_1.octokit.repos.createAutolink({
@@ -127,7 +127,7 @@ exports.octokit = new rest_1.Octokit({
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.join = void 0;
 const lodash_1 = __nccwpck_require__(250);
-const join = (...parts) => parts.map((part) => lodash_1.trim(part, '/')).join('/');
+const join = (...parts) => parts.map((part) => (0, lodash_1.trim)(part, '/')).join('/');
 exports.join = join;
 
 
