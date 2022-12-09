@@ -32,6 +32,7 @@ import { join } from './utils';
         ...github.context.repo,
         key_prefix: prefix,
         url_template: targetURL,
+        is_alphanumeric: false,
       }),
     ),
   );
